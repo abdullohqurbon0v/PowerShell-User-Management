@@ -13,13 +13,16 @@ function WriteCsv {
             [string]$email
         )
 
+        $id = [guid]::NewGuid().ToString()
+
         $user = [PSCustomObject]@{
+            id       = $id
             name     = $name
             lastname = $lastname
             age      = $age
             email    = $email
         }
- 
+
         $csvPath = "$csvFolder\users.csv"
 
         if (-Not (Test-Path $csvPath)) {
@@ -43,23 +46,23 @@ function WriteCsv {
 }
 
 function ReadCsv {
-    $csvFolder = "C:\PowerShellTest\users.csv"
-    if (-not (Test-Path $csvFolder)) {
+    $csvPath = "C:\PowerShellTest\users.csv"
+    if (-not (Test-Path $csvPath)) {
         Write-Output "Siz hali beri hech nima yozmagan eklansiz"
     } else {
         Write-Output "-----Foydalanuvchilarni malumotlari-----"
-        $csv = Import-Csv -Path "C:\PowerShellTest\users.csv"
+        $csv = Import-Csv -Path $csvPath
         $csv
     }
 }
 
-Write-Output "1: CVS ga yozilgan malumotlarni ko'rish"
-Write-Output "2: CVS ga malumot yo'zish"
-Write-Output "3: CVS dan malumot o'zgartirish"
-Write-Output "4: CVS dan malumot ochirish"
+Write-Output "1: CSV ga yozilgan ma'lumotlarni ko‘rish"
+Write-Output "2: CSV ga ma'lumot yozish"
+Write-Output "3: CSV dan ma'lumot o‘zgartirish"
+Write-Output "4: CSV dan ma'lumot o‘chirish"
 $input = Read-Host ">"
 
-switch ($input) {
+switch ($input) {  
     "1" { ReadCsv }
     "2" { WriteCsv }
     "3" { Write-Output "❌ Hozircha mavjud emas." }
